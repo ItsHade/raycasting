@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "raycasting.h": "c",
+        "unistd.h": "c"
+    }
+}
