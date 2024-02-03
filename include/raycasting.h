@@ -35,7 +35,7 @@ typedef struct
 	double	deltax;
 	double	deltay;
 	double	angle;
-	int size; // 
+	int size; //
 } t_player;
 
 typedef struct

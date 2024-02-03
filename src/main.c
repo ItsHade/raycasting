@@ -17,6 +17,7 @@ void	init(GameState *game)
 		"11111111",
 		NULL
 	};
+	game->map.map = NULL;
 	game->map.map = malloc(sizeof(int) * game->map.maps);
 	if (!game->map.map)
 		exit(-1);
@@ -139,7 +140,7 @@ int	draw_minimap(SDL_Renderer *map_renderer, GameState *game)
 	int	x;
 	int	y;
 	int cell = 720 / 8; // 8 being max map_len
-	fprintf(stderr, "player x %f, y %f, angle %f, deltax %f, deltay %f\n", game->player.x, game->player.y, game->player.angle, game->player.deltax, game->player.deltay);
+	// fprintf(stderr, "player x %f, y %f, angle %f, deltax %f, deltay %f\n", game->player.x, game->player.y, game->player.angle, game->player.deltax, game->player.deltay);
 	SDL_SetRenderDrawColor(map_renderer, 100, 100, 100, 255);
 
 	//Clear the screen (to blue)
@@ -150,7 +151,7 @@ int	draw_minimap(SDL_Renderer *map_renderer, GameState *game)
 		x = 0;
 		while (x < game->map.mapx)
 		{
-	
+
 			if (game->map.map[y * game->map.mapy + x] == 1)
 				SDL_SetRenderDrawColor(map_renderer, 0, 0, 0, 255);
 			else
@@ -175,9 +176,9 @@ int	draw_minimap(SDL_Renderer *map_renderer, GameState *game)
 int	main(void)
 {
 	GameState game;
-	SDL_Window *window; //Declare a window
+	// SDL_Window *window; //Declare a window
 	SDL_Window *minimap;
-	SDL_Renderer *renderer; //Declare a renderer
+	// SDL_Renderer *renderer; //Declare a renderer
 	SDL_Renderer *map_renderer;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) //Initialize SDL2
@@ -189,20 +190,20 @@ int	main(void)
 	game.window.height = 720;
 	game.window.name = "Raycasting";
 
-	srandom((int)time(NULL));
+	ft_putstr_fd("TEST\n", 2);
 
 	//Create an application window with the following settings:
-	window = SDL_CreateWindow(game.window.name,		// window title
-				1920 / 2,	// initial x position
-				0,	// initial y position
-				game.window.width,				// width, in pixels
-				game.window.height,				// height, in pixels
-				0				// flags
-				);
-	 if (window == NULL) {
-        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
-    }
+	// window = SDL_CreateWindow(game.window.name,		// window title
+	// 			1920 / 2,	// initial x position
+	// 			0,	// initial y position
+	// 			game.window.width,				// width, in pixels
+	// 			game.window.height,				// height, in pixels
+	// 			0				// flags
+	// 			);
+	//  if (window == NULL) {
+    //     printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    //     return 1;
+    // }
 	minimap = SDL_CreateWindow("Minimap",		// window title
 				0,	// initial x position
 				0,	// initial y position
@@ -214,18 +215,18 @@ int	main(void)
         printf("Minimap could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	 if (renderer == NULL) {
-        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
-    }
+	// renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	//  if (renderer == NULL) {
+    //     printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+    //     return 1;
+    // }
 	map_renderer = SDL_CreateRenderer(minimap, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	 if (map_renderer == NULL) {
         printf("Map_Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
-	game.renderer = renderer;
-	game.window.window = window;
+	// game.renderer = renderer;
+	game.window.window = minimap;
 
 	init(&game);
 
@@ -242,19 +243,16 @@ int	main(void)
 		//Check for events
 		done = inputs(&game);
 
-		render(&game);
+		// render(&game);
 		draw_minimap(map_renderer, &game);
 
 		//don't burn up the CPU
 		// SDL_Delay(10);
 	}
 
-	//Shutdown game and unload all memory
-	SDL_DestroyTexture(game.star);
-
 	//Close and destroy the window
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	// SDL_DestroyWindow(window);
+	// SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(minimap);
 	SDL_DestroyRenderer(map_renderer);
 
